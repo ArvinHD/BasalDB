@@ -14,18 +14,26 @@
 	<name>BasalDB</name>
     <packaging>jar</packaging>
 	<description>BasalDB</description>
-	<url/>
+	<url>https://github.com/ArvinHD/BasalDB</url>
 	<licenses>
-		<license/>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+			<name>Arvin.D.H</name>
+			<email>363293333@qq.com</email>
+			<organization>mulfarsh</organization>
+			<organizationUrl>https://www.mulfarsh.com</organizationUrl>
+		</developer>
 	</developers>
 	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
+		<connection>scm:git:git://github.com:ArvinHD/BasalDB.git</connection>
+		<developerConnection>scm:git:ssh://github.com:ArvinHD/BasalDB.git</developerConnection>
+		<tag>0.01</tag>
+		<url>https://github.com/ArvinHD/BasalDB/tree/main</url>
 	</scm>
 	<properties>
 		<java.version>17</java.version>
@@ -119,6 +127,10 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
 			</plugin>
             <plugin>
                 <groupId>org.sonatype.central</groupId>
