@@ -12,7 +12,7 @@
 	<artifactId>BasalDB</artifactId>
 	<version>0.0.2</version>
 	<name>BasalDB</name>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 	<description>BasalDB</description>
 	<url>https://github.com/ArvinHD/BasalDB</url>
 	<licenses>
