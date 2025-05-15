@@ -6,13 +6,14 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.util.Map;
 
-@Component
+@Component(value = "dhj-basal-db-datasource-loader")
 public class DataSourceLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         // 获取Spring上下文
         Map<String, DataSource> dataSources = event.getApplicationContext().getBeansOfType(DataSource.class);
+        System.out.println("DB 模块");
         // 遍历输出所有数据源
         dataSources.forEach((name, dataSource) -> {
             System.out.println("数据源名称: " + name);

@@ -15,6 +15,7 @@ import com.mulfarsh.dhj.basaldb.beansearcher.proxy.ProxyBeanSearcher;
 import com.mulfarsh.dhj.basaldb.beansearcher.proxy.ProxyParamResolver;
 import com.mulfarsh.dhj.basaldb.beansearcher.proxy.ProxySqlResolver;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,6 +32,7 @@ public class BSCoustomConfig {
     }
 
     @Bean
+    @ConditionalOnMissingBean(ParamResolver.class)
     public ParamResolver paramResolver(PageExtractor pageExtractor,
                                        FieldOpPool fieldOpPool,
                                        List<ParamFilter> paramFilters,
@@ -58,6 +60,7 @@ public class BSCoustomConfig {
     }
 
     @Bean
+    @ConditionalOnMissingBean(SqlResolver.class)
     public SqlResolver sqlResolver(Dialect dialect, ObjectProvider<GroupPair.Resolver> groupPairResolver,
                                    ObjectProvider<JoinParaSerializer> joinParaSerializer) {
         ProxySqlResolver resolver = new ProxySqlResolver(dialect);
@@ -68,6 +71,7 @@ public class BSCoustomConfig {
 
 
     @Bean
+    @ConditionalOnMissingBean(BeanSearcher.class)
     public BeanSearcher beanSearcher(MetaResolver metaResolver,
                                      ParamResolver paramResolver,
                                      SqlResolver sqlResolver,

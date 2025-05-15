@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.AutoConfiguration=\
+com.mulfarsh.dhj.basaldb.BasalDBConfig
