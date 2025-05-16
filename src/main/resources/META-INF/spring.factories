@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.AutoConfiguration=\
-com.mulfarsh.dhj.basaldb.BasalDBConfig
+com.mulfarsh.dhj.basaldb.BasalDBConfig,\
+  com.mulfarsh.dhj.basaldb.initialize.DisableDataSourceAutoConfiguration

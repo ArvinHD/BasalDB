@@ -11,15 +11,5 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 public class MybatisFlexDatasourceConfig {
 
-    private final DataSource userCenterDataSource;
-    private final DataSource partyFeeDataSource;
-    private final DataSource partyBuildingDataSource;
 
-    public void configDatasources() {
-        final FlexDataSource dataSource = FlexGlobalConfig.getDefaultConfig().getDataSource();
-        dataSource.addDataSource("user-center", userCenterDataSource);
-        dataSource.addDataSource("party-fee", partyFeeDataSource);
-        dataSource.addDataSource("party-building", partyBuildingDataSource);
-
-    }
 }
