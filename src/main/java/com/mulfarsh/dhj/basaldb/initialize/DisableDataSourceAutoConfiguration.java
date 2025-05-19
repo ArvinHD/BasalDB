@@ -15,16 +15,9 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 @Configuration(proxyBeanMethods = false)
-//@EnableConfigurationProperties(DataSourceConfig.class)
 @ConditionalOnClass({SqlSessionFactory.class, SqlSessionFactoryBean.class})
 @AutoConfigureBefore(value = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class})
 @RequiredArgsConstructor
 public class DisableDataSourceAutoConfiguration {
 
-    private final DataSourceConfig dataSourceConfig;
-
-    @Bean
-    public DataSource dataSource() {
-        return dataSourceConfig.getDefaultDataSource();
-    }
 }

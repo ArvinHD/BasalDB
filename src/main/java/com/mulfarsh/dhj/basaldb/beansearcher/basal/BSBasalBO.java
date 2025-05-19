@@ -2,6 +2,7 @@ package com.mulfarsh.dhj.basaldb.beansearcher.basal;
 
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.db.Page;
 import com.mulfarsh.dhj.basaldb.beansearcher.BSExecutor;
 import com.mulfarsh.dhj.basaldb.beansearcher.extension.BSBeanTypeScanner;
 import com.mulfarsh.dhj.basaldb.beansearcher.extension.Pager;
@@ -25,11 +26,25 @@ public interface BSBasalBO<T extends BSBasalEntity> {
         }
     }
 
+    default T queryOne() {
+        return BSExecutor.queryOne(null, getEntityType());
+    }
+
     default T queryOne(Map<String, Object> conditions) {
+        if (CollUtil.isEmpty(conditions)) {
+            return null;
+        }
         return BSExecutor.queryOne(conditions, getEntityType());
     }
 
+    default List<T> queryList() {
+        return queryAll();
+    }
+
     default List<T> queryList(Map<String, Object> conditions) {
+        if (CollUtil.isEmpty(conditions)) {
+            return new ArrayList<>();
+        }
         final List<T> ts = BSExecutor.queryWith(conditions, getCachedType());
         if (CollUtil.isEmpty(ts)) {
             return new ArrayList<>();
@@ -37,7 +52,15 @@ public interface BSBasalBO<T extends BSBasalEntity> {
         return ts;
     }
 
+    default Pager<T> page(Integer page, Integer size) {
+        Map<String, Object> conditions = BaseBuilder().paging(page, size).build();
+        return page(conditions);
+    }
+
     default Pager<T> page(Map<String, Object> conditions) {
+        if (CollUtil.isEmpty(conditions)) {
+            return (Pager<T>) Pager.EMPTY;
+        }
         return BSExecutor.pageWith(conditions, getCachedType());
     }
 

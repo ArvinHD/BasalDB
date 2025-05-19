@@ -24,9 +24,7 @@ import java.util.Map;
 @Data
 public class DataSourceConfig {
 
-//    @ConfigurationProperties("datasource")
     @Data
-//    @Component
     public static class DBProperties {
 
         private String url;

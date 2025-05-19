@@ -18,6 +18,8 @@ import java.util.List;
 @Builder
 public class Pager<T> implements Serializable {
 
+    public static final Pager<?> EMPTY = new Pager<>();
+
     private long page = 1;
     private long size = 0;
     private long totalPage = 1;

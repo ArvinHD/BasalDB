@@ -19,7 +19,9 @@ public class BSExecutor {
     private final static String PAGING_PARAM_KEY = "cn.zhxu.bs.param.Paging";
 
     public static <T extends BSBasalEntity> T queryOne(Map<String, Object> condition, Class<T> tClass) {
-//        final Map<String, Object> build = MapUtils.builder(condition).limit(0, 1).build();
+        if (CollUtil.isEmpty(condition)) {
+            return INSTANCE.beanSearcher.searchFirst(tClass);
+        }
         return INSTANCE.beanSearcher.searchFirst(tClass, condition);
     }
 
