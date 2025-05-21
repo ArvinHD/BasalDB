@@ -2,21 +2,28 @@ package com.mulfarsh.dhj.basaldb.mybatisflex.basal;
 
 
 import cn.hutool.core.annotation.AnnotationUtil;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
-import cn.hutool.core.util.NumberUtil;
-import cn.hutool.core.util.ReflectUtil;
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.*;
 import com.mulfarsh.dhj.basaldb.core.datetime.CommonDateFormats;
 import com.mulfarsh.dhj.basaldb.mybatisflex.external.AutocompleteDataField;
 import com.mulfarsh.dhj.basaldb.mybatisflex.external.AutocompleteDataModel;
 import com.mulfarsh.dhj.basaldb.mybatisflex.external.AutocompleteField;
+import com.mybatisflex.annotation.Column;
 import com.mybatisflex.annotation.Id;
+import com.mybatisflex.annotation.TableRef;
+import com.mybatisflex.core.row.Row;
+import com.mybatisflex.core.row.RowKey;
+import com.mybatisflex.core.table.TableInfo;
+import com.mybatisflex.core.table.TableInfoFactory;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.context.annotation.Bean;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,6 +45,84 @@ public interface MFBasalEntity extends Serializable {
         private MFBasalEntity entity;
         private String reason;
     };
+
+    default String[] ignoreInsertFields() { return null; };
+    default String[] ignoreUpdateFields() { return null; };
+    default Object getDefaultValueIfFieldValueIsNull(String propertyName, Field field, Method getMethod) { return null; }
+
+    default Row toInsertRow() {
+        if (ObjUtil.isNotEmpty(ignoreInsertFields())) {
+            return toRow(true, ignoreInsertFields());
+        } else {
+            return toRow(true);
+        }
+    }
+
+    default Row toUpdateRow() {
+        if (ObjUtil.isNotEmpty(ignoreUpdateFields())) {
+            return toRow(false, ignoreUpdateFields());
+        } else  {
+            return toRow(false);
+        }
+    }
+
+    default Row toRow(Boolean insert, String ... ignoreFields) {
+        Map<String, Object> map = toMap(insert, ignoreFields);
+        if (CollUtil.isEmpty(map)) {
+            return null;
+        }
+        return getRow(map);
+    }
+
+    default Row getRow(Map<String, Object> map) {
+        Row row = Row.ofKey(RowKey.SNOW_FLAKE_ID);
+        TableInfo tableInfo = TableInfoFactory.ofEntityClass(this.getClass());
+        map.forEach((key, value) -> {
+            if (tableInfo.getPropertyColumnMapping().containsKey(key)) {
+                row.set(tableInfo.getPropertyColumnMapping().get(key), value);
+            }
+        });
+        return row;
+    }
+
+    default Map<String, Object> toMap(Boolean insert, String ... ignoreFields) {
+        String[] fieldNames = null;
+        Map<String, Field> fieldMap = ReflectUtil.getFieldMap(this.getClass());
+        if (ObjUtil.isEmpty(ignoreFields)) {
+            fieldNames = fieldMap.keySet().toArray(new String[0]);
+        } else {
+            List<String> ignores = Arrays.asList(ignoreFields);
+            Set<String> names = fieldMap.keySet();
+            ignores.forEach(names::remove);
+            fieldNames = names.toArray(new String[0]);
+        }
+        if (ObjUtil.isEmpty(fieldNames)) {
+            return Collections.emptyMap();
+        }
+
+        Map<String, Object> beanToMap = BeanUtil.beanToMap(this, fieldNames);
+        Map<String, Object> copied = new HashMap<>(beanToMap);
+        copied.forEach((key, value) -> {
+            if (fieldMap.containsKey(key) && value == null) {
+                Field field = fieldMap.get(key);
+                if (AnnotationUtil.hasAnnotation(field, Column.class)) {
+                    Column column = AnnotationUtil.getAnnotation(field, Column.class);
+                    if (insert && StrUtil.isNotEmpty(column.onInsertValue())) {
+                        beanToMap.replace(key, column.onInsertValue());
+                    } else if (StrUtil.isNotEmpty(column.onUpdateValue())) {
+                        beanToMap.replace(key, column.onUpdateValue());
+                    }
+                }
+                if (beanToMap.get(key) == null) {
+                    String methodName = "get" + StrUtil.upperFirst(key);
+                    Method method = ReflectUtil.getMethod(this.getClass(), methodName);
+                    Object defaultIfNull = getDefaultValueIfFieldValueIsNull(key, field, method);
+                    beanToMap.replace(key, defaultIfNull);
+                }
+            }
+        });
+        return beanToMap;
+    }
 
     List<Field> EMPTY_FIELDS = Collections.emptyList();
 
