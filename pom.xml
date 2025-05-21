@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.mulfarsh.dhj</groupId>
 	<artifactId>BasalDB</artifactId>
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 	<name>BasalDB</name>
 	<packaging>jar</packaging>
 	<description>BasalDB</description>
@@ -154,26 +154,22 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-<!--					<mainClass>com.mulfarsh.dhj.basaldb.BasalDBConfig</mainClass>-->
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--&lt;!&ndash;					<mainClass>com.mulfarsh.dhj.basaldb.BasalDBConfig</mainClass>&ndash;&gt;-->
+<!--					<excludes>-->
+<!--						<exclude>-->
+<!--							<groupId>org.projectlombok</groupId>-->
+<!--							<artifactId>lombok</artifactId>-->
+<!--						</exclude>-->
+<!--					</excludes>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
