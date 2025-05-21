@@ -1,4 +1,4 @@
 com.mulfarsh.dhj.basaldb.BasalDBConfig
 com.mulfarsh.dhj.basaldb.initialize.DisableDataSourceAutoConfiguration
 org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-DataSourceTransactionManagerAutoConfigurationDataSourceTransactionManagerAutoConfiguration
+org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
