@@ -21,6 +21,7 @@ import java.util.Map;
 
 @Configuration
 @ConfigurationProperties(prefix = "dhj-db.datasource")
+@AutoConfigureBefore(value = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class})
 @Data
 public class DataSourceConfig {
 
