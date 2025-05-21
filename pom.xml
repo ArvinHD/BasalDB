@@ -224,7 +224,7 @@
 				<configuration>
 					<skip>false</skip> <!-- 确认不跳过签名 -->
 					<!-- 指定GPG密钥ID（可选） -->
-					<keyname>FDE917F59A897EA8</keyname>
+					<keyname>${gpg.name}</keyname>
 					<!-- 你可以在settings.xml中配置密码，防止在pom中硬编码 -->
 					<passphrase>${gpg.passphrase}</passphrase>
 					<!-- 是否启用ASCII Armor格式 -->
