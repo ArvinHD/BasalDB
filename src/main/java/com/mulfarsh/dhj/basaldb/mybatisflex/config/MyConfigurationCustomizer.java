@@ -10,6 +10,6 @@ public class MyConfigurationCustomizer implements ConfigurationCustomizer {
 
     @Override
     public void customize(FlexConfiguration configuration) {
-        configuration.setLogImpl(StdOutImpl.class);
+        //configuration.setLogImpl(StdOutImpl.class);
     }
 }
