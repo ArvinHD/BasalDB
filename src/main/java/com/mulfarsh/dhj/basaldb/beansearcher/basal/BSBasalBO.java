@@ -72,6 +72,17 @@ public interface BSBasalBO<T extends BSBasalEntity> {
         return ts;
     }
 
+    default int queryCount(Map<String, Object> conditions) {
+        if (CollUtil.isEmpty(conditions)) {
+            return -1;
+        }
+        return BSExecutor.count(conditions, getCachedType());
+    }
+
+    default int queryCount() {
+        return BSExecutor.count(null, getCachedType());
+    }
+
     default ProxyMapBuilder BaseBuilder() {
         return ProxyMapBuilder.create();
     }

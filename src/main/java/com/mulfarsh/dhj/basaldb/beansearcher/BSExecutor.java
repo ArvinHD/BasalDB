@@ -69,6 +69,13 @@ public class BSExecutor {
         return new Pager<>(ts, (long) page, (long) size, (long) search.getTotalCount());
     }
 
+    public static <T extends BSBasalEntity> int count(Map<String, Object> condition, Class<T> tClass) {
+        if (CollUtil.isEmpty(condition)) {
+            return INSTANCE.beanSearcher.searchCount(tClass).intValue();
+        }
+        return INSTANCE.beanSearcher.searchCount(tClass, condition).intValue();
+    }
+
     public static <T extends BSBasalEntity> List<T> query(String sql, Class<T> tClass) {
         final SearchResult<T> search = INSTANCE.beanSearcher.search(tClass, sql);
         return search.getDataList();
